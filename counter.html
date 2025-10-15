@@ -1,33 +1,185 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Counter Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f8;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #198754;
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      font-size: 22px;
+      font-weight: bold;
+    }
+    .container {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px;
+      gap: 20px;
+    }
+    .menu, .bill {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      width: 48%;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background: #eee;
+    }
+    button {
+      background: #198754;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #157347;
+    }
+    footer {
+      text-align: center;
+      padding: 10px;
+      color: #777;
+      background: #f0f0f0;
+    }
+    .total {
+      font-size: 18px;
+      font-weight: bold;
+      text-align: right;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
-  <h2>All Orders</h2>
-  <table border="1" id="ordersTable">
-    <thead><tr><th>OrderID</th><th>Item</th><th>Qty</th><th>Table</th><th>Status</th></tr></thead>
-    <tbody></tbody>
-  </table>
+  <header>Counter Dashboard (Orders & Billing)</header>
+
+  <div class="container">
+    <!-- MENU LIST -->
+    <div class="menu">
+      <h2>Menu Items</h2>
+      <table id="menuTable">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Add</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <!-- BILLING AREA -->
+    <div class="bill">
+      <h2>Current Bill</h2>
+      <table id="billTable">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Total</th>
+            <th>Remove</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <div class="total" id="totalAmount">Total: Nu. 0</div>
+      <button id="submitBtn" style="margin-top:15px;">Submit Order</button>
+    </div>
+  </div>
+
+  <footer>Powered by Google Sheets & GitHub Pages</footer>
 
   <script>
-    const scriptURL = 'YOUR_WEB_APP_URL_HERE';
+    const sheetURL = "https://script.google.com/macros/s/AKfycbyX6QV5NW2LYEsrEufPC1wDaUpjAOJ-aRoD6lURYHtNiMIZP9x403cj99-hqEdhsnBq8A/exec";
+    let menuData = [];
+    let billItems = [];
 
-    async function loadOrders() {
-      const res = await fetch(scriptURL);
-      const orders = await res.json();
-      const tbody = document.querySelector('#ordersTable tbody');
-      tbody.innerHTML = '';
+    // Load menu items from Google Sheet
+    fetch(sheetURL)
+      .then(res => res.json())
+      .then(data => {
+        menuData = data;
+        const tbody = document.querySelector("#menuTable tbody");
+        data.forEach(row => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${row.Item}</td>
+            <td>${row.Category}</td>
+            <td>Nu. ${row.Price}</td>
+            <td><button onclick="addToBill('${row.Item}', ${row.Price})">+</button></td>
+          `;
+          tbody.appendChild(tr);
+        });
+      })
+      .catch(err => console.error("Error fetching data:", err));
 
-      orders.reverse().forEach(o => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${o.orderId}</td><td>${o.item}</td><td>${o.quantity}</td><td>${o.tableNo}</td><td>${o.status}</td>`;
-        tbody.appendChild(tr);
-      });
+    // Add to bill
+    function addToBill(item, price) {
+      const existing = billItems.find(b => b.item === item);
+      if (existing) existing.qty++;
+      else billItems.push({ item, price, qty: 1 });
+      renderBill();
     }
 
-    setInterval(loadOrders, 5000);
-    loadOrders();
+    // Remove from bill
+    function removeItem(item) {
+      billItems = billItems.filter(b => b.item !== item);
+      renderBill();
+    }
+
+    // Render bill table
+    function renderBill() {
+      const tbody = document.querySelector("#billTable tbody");
+      tbody.innerHTML = "";
+      let total = 0;
+      billItems.forEach(b => {
+        const lineTotal = b.price * b.qty;
+        total += lineTotal;
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${b.item}</td>
+          <td>${b.qty}</td>
+          <td>Nu. ${b.price}</td>
+          <td>Nu. ${lineTotal}</td>
+          <td><button onclick="removeItem('${b.item}')">X</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+      document.getElementById("totalAmount").innerText = "Total: Nu. " + total;
+    }
+
+    // Handle order submit
+    document.getElementById("submitBtn").addEventListener("click", () => {
+      if (billItems.length === 0) {
+        alert("No items in bill!");
+        return;
+      }
+      alert("✅ Order submitted successfully!");
+      billItems = [];
+      renderBill();
+    });
   </script>
 </body>
 </html>
