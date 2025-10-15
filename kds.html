@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kitchen Display</title>
+  <style>
+    .pending { background-color: orange; }
+    .ready { background-color: lightgreen; }
+    div.order-card { padding: 10px; margin: 10px; border-radius: 8px; border: 1px solid #ddd; }
+  </style>
+</head>
+<body>
+  <h2>Kitchen Display</h2>
+  <div id="orders"></div>
+
+  <script>
+    const scriptURL = 'YOUR_WEB_APP_URL_HERE';
+
+    async function loadOrders() {
+      const res = await fetch(scriptURL);
+      const orders = await res.json();
+      const div = document.getElementById('orders');
+      div.innerHTML = '';
+
+      orders.filter(o => o.status !== 'Ready').forEach(o => {
+        const card = document.createElement('div');
+        card.className = 'order-card ' + o.status.toLowerCase();
+        card.innerHTML = `<h3>${o.item}</h3><p>Qty: ${o.quantity}</p><p>Table: ${o.tableNo}</p><p>Status: ${o.status}</p>`;
+        div.appendChild(card);
+      });
+    }
+
+    setInterval(loadOrders, 4000);
+    loadOrders();
+  </script>
+</body>
+</html>
