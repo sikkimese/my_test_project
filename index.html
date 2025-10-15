@@ -1,38 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Restaurant Menu</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 40px;
-      background-color: #fafafa;
+      background-color: #f7f8fa;
+      margin: 0;
+      padding: 0;
+      text-align: center;
     }
     h1 {
-      text-align: center;
-      color: #2b3a55;
+      background-color: #0d6efd;
+      color: white;
+      padding: 15px 0;
+      margin: 0;
     }
     table {
+      margin: 30px auto;
       border-collapse: collapse;
-      width: 100%;
-      background: #fff;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      width: 90%;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
     th, td {
-      border: 1px solid #ddd;
       padding: 10px;
-      text-align: left;
+      border: 1px solid #ddd;
     }
     th {
-      background-color: #f0f0f0;
+      background: #eee;
     }
-    tr:nth-child(even) { background-color: #f9f9f9; }
     footer {
-      text-align: center;
-      margin-top: 20px;
-      color: #888;
+      margin: 20px 0;
+      color: #777;
     }
   </style>
 </head>
@@ -41,34 +43,35 @@
 
   <table id="menuTable">
     <thead>
-      <tr><th>Item</th><th>Category</th><th>Price</th></tr>
+      <tr>
+        <th>Item</th>
+        <th>Category</th>
+        <th>Price</th>
+      </tr>
     </thead>
     <tbody></tbody>
   </table>
 
-  <footer>Powered by Google Sheets & GitHub Pages</footer>
+  <footer>
+    Powered by Google Sheets & GitHub Pages
+  </footer>
 
   <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbyX6QV5NW2LYEsrEufPC1wDaUpjAOJ-aRoD6lURYHtNiMIZP9x403cj99-hqEdhsnBq8A/exec';
+    const sheetURL = "https://script.google.com/macros/s/AKfycbyX6QV5NW2LYEsrEufPC1wDaUpjAOJ-aRoD6lURYHtNiMIZP9x403cj99-hqEdhsnBq8A/exec";
 
-    async function loadMenu() {
-      try {
-        const response = await fetch(scriptURL);
-        const data = await response.json();
-        const tbody = document.querySelector('#menuTable tbody');
-        tbody.innerHTML = '';
-
+    fetch(sheetURL)
+      .then(res => res.json())
+      .then(data => {
+        const tbody = document.querySelector("#menuTable tbody");
         data.forEach(row => {
-          const tr = document.createElement('tr');
-          tr.innerHTML = `<td>${row.Item || ''}</td><td>${row.Category || ''}</td><td>${row.Price || ''}</td>`;
+          const tr = document.createElement("tr");
+          tr.innerHTML = `<td>${row.Item}</td><td>${row.Category}</td><td>${row.Price}</td>`;
           tbody.appendChild(tr);
         });
-      } catch (err) {
-        console.error('Error loading data', err);
-      }
-    }
-
-    loadMenu();
+      })
+      .catch(err => {
+        console.error("Error loading data:", err);
+      });
   </script>
 </body>
 </html>
