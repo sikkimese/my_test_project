@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SK Fufu & Thali Kitchen - Fine Dining Experience</title>
+    <title>SK Fufu & Thali Kitchen - Order System</title>
     <style>
         * {
             margin: 0;
@@ -12,430 +11,1130 @@
             box-sizing: border-box;
         }
 
-        body {<!-- Navigation Menu -->
-<nav style="background: linear-gradient(90deg, #ff6600, #ff9966); padding: 10px;">
-  <ul style="list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; gap: 30px;">
-    <li><a href="index.html" style="color: white; text-decoration: none; font-weight: bold;">Home</a></li>
-    <li><a href="about.html" style="color: white; text-decoration: none; font-weight: bold;">About</a></li>
-    <li><a href="services.html" style="color: white; text-decoration: none; font-weight: bold;">Services</a></li>
-    <li><a href="contact.html" style="color: white; text-decoration: none; font-weight: bold;">Contact</a></li>
-  </ul>
-</nav>
-}
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
+        :root {
+            --primary: #d84315;
+            --primary-dark: #bf360c;
+            --secondary: #ff6f00;
+            --accent: #ffa726;
+            --success: #43a047;
+            --warning: #fb8c00;
+            --bg-light: #fafafa;
+            --bg-cream: #fff8f5;
+            --text-dark: #2c2c2c;
+            --text-light: #666;
+            --border: #e0e0e0;
         }
 
-        .hero::before {
-            content: '';
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            top: -200px;
-            right: -100px;
-            animation: float 6s ease-in-out infinite;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
         }
 
-        .hero::after {
-            content: '';
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 50%;
-            bottom: -100px;
-            left: -50px;
-            animation: float 8s ease-in-out infinite reverse;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .hero-content {
-            text-align: center;
-            color: white;
-            z-index: 2;
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
             padding: 20px;
-            max-width: 900px;
         }
 
-        .logo {
-            font-size: 3.5em;
-            font-weight: bold;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-            animation: slideDown 1s ease-out;
+        /* Top Navigation Bar */
+        .top-nav {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-50px); }
-            to { opacity: 1; transform: translateY(0); }
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .tagline {
+        .nav-brand {
             font-size: 1.5em;
-            margin-bottom: 30px;
-            opacity: 0.95;
-            animation: fadeIn 1.5s ease-out;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-link {
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255,255,255,0.25);
+        }
+
+        /* Page Container */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .cta-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 40px;
+        /* Welcome Screen */
+        .welcome-screen {
+            text-align: center;
+            padding: 60px 20px;
         }
 
+        .welcome-card {
+            background: white;
+            padding: 60px 40px;
+            border-radius: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .welcome-icon {
+            font-size: 5em;
+            margin-bottom: 20px;
+        }
+
+        .welcome-title {
+            font-size: 2.5em;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .welcome-subtitle {
+            font-size: 1.2em;
+            color: var(--text-light);
+            margin-bottom: 30px;
+        }
+
+        .table-badge {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.3em;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 40px;
+        }
+
+        /* Buttons */
         .btn {
             padding: 15px 40px;
-            font-size: 1.1em;
             border: none;
-            border-radius: 50px;
+            border-radius: 30px;
+            font-size: 1.1em;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            text-decoration: none;
             display: inline-block;
         }
 
         .btn-primary {
-            background: white;
-            color: #ff6b35;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 15px rgba(216, 67, 21, 0.3);
         }
 
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 6px 20px rgba(216, 67, 21, 0.4);
         }
 
         .btn-secondary {
-            background: transparent;
-            color: white;
-            border: 2px solid white;
-            font-weight: bold;
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
         }
 
         .btn-secondary:hover {
-            background: white;
-            color: #ff6b35;
-            transform: translateY(-3px);
-        }
-
-        /* Features Section */
-        .features {
-            padding: 80px 20px;
-            background: #fff;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5em;
-            margin-bottom: 60px;
-            color: #ff6b35;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .feature-card {
-            background: linear-gradient(135deg, #fff 0%, #fff5f2 100%);
-            padding: 40px 30px;
-            border-radius: 20px;
-            text-align: center;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            border-color: #ff6b35;
-            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.2);
-        }
-
-        .feature-icon {
-            font-size: 3em;
-            margin-bottom: 20px;
-        }
-
-        .feature-title {
-            font-size: 1.4em;
-            margin-bottom: 15px;
-            color: #333;
-        }
-
-        .feature-desc {
-            color: #666;
-            line-height: 1.6;
-        }
-
-        /* How It Works */
-        .how-it-works {
-            padding: 80px 20px;
-            background: linear-gradient(135deg, #f7931e 0%, #ff6b35 100%);
+            background: var(--primary);
             color: white;
         }
 
-        .steps {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
-            max-width: 1200px;
-            margin: 0 auto;
+        /* Menu Page */
+        .menu-header {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
 
-        .step {
+        .search-filter {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-box {
             flex: 1;
-            min-width: 200px;
-            max-width: 250px;
+            min-width: 280px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 14px 45px 14px 20px;
+            border: 2px solid var(--border);
+            border-radius: 30px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(216, 67, 21, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2em;
+        }
+
+        .filter-chips {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .chip {
+            padding: 10px 20px;
+            border: 2px solid var(--border);
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .chip:hover {
+            border-color: var(--primary);
+            background: var(--bg-cream);
+        }
+
+        .chip.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Category Section */
+        .category-section {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .category-icon {
+            font-size: 2.5em;
+        }
+
+        .category-title {
+            font-size: 1.8em;
+            color: var(--primary);
+        }
+
+        /* Menu Items Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .menu-item {
+            background: var(--bg-cream);
+            border-radius: 20px;
+            padding: 25px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            border-color: var(--accent);
+        }
+
+        .menu-item.unavailable {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .item-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 12px;
+        }
+
+        .item-name {
+            font-size: 1.25em;
+            font-weight: 600;
+            color: var(--text-dark);
+            flex: 1;
+        }
+
+        .item-price {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: var(--primary);
+            white-space: nowrap;
+            margin-left: 15px;
+        }
+
+        .item-id {
+            font-size: 0.9em;
+            color: var(--text-light);
+            margin-bottom: 12px;
+        }
+
+        .item-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .badge-available {
+            background: #e8f5e9;
+            color: var(--success);
+        }
+
+        .badge-unavailable {
+            background: #ffebee;
+            color: #d32f2f;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .qty-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--primary);
+            background: white;
+            border-radius: 50%;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--primary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .qty-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .qty-display {
+            font-size: 1.2em;
+            font-weight: bold;
+            min-width: 30px;
             text-align: center;
         }
 
-        .step-number {
-            width: 60px;
-            height: 60px;
+        .add-to-cart-btn {
+            flex: 1;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-cart-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .add-to-cart-btn:disabled {
+            background: #bdbdbd;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Floating Cart Button */
+        .cart-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 18px 35px;
+            border-radius: 50px;
+            box-shadow: 0 8px 30px rgba(216, 67, 21, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 99;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .cart-float:hover {
+            transform: scale(1.1);
+        }
+
+        .cart-float.hidden {
+            display: none;
+        }
+
+        .cart-badge {
             background: white;
-            color: #ff6b35;
+            color: var(--primary);
             border-radius: 50%;
+            width: 35px;
+            height: 35px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8em;
             font-weight: bold;
-            margin: 0 auto 20px;
         }
 
-        .step-title {
-            font-size: 1.3em;
-            margin-bottom: 10px;
+        /* Cart Page */
+        .cart-container {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 25px;
         }
 
-        /* Footer */
-        .footer {
-            background: #333;
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
+        .cart-items {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
 
-        .footer-content {
-            max-width: 1200px;
+        .cart-item {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            align-items: center;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            color: var(--text-light);
+        }
+
+        .cart-summary {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .summary-title {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .summary-total {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-top: 15px;
+            color: var(--primary);
+        }
+
+        /* Order Tracking */
+        .tracking-container {
+            max-width: 800px;
             margin: 0 auto;
         }
 
-        .language-toggle {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background: #ff6b35;
-            border: none;
-            border-radius: 25px;
-            color: white;
-            cursor: pointer;
-            font-size: 1em;
+        .order-info-card {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
 
-        .language-toggle:hover {
-            background: #f7931e;
+        .order-number {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
         }
 
-        /* Scroll Arrow */
-        .scroll-arrow {
+        .order-time {
+            color: var(--text-light);
+            font-size: 1.1em;
+        }
+
+        .status-timeline {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 25px;
+            position: relative;
+            padding-bottom: 40px;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '';
             position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: bounce 2s infinite;
-            cursor: pointer;
-            z-index: 3;
+            left: 24px;
+            top: 50px;
+            width: 2px;
+            height: calc(100% - 30px);
+            background: var(--border);
         }
 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-            40% { transform: translateX(-50%) translateY(-10px); }
-            60% { transform: translateX(-50%) translateY(-5px); }
+        .timeline-item:last-child::before {
+            display: none;
         }
 
-        .scroll-arrow svg {
-            width: 40px;
-            height: 40px;
-            fill: white;
+        .timeline-item.active::before {
+            background: var(--primary);
+        }
+
+        .timeline-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            flex-shrink: 0;
+        }
+
+        .timeline-item.active .timeline-icon {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        .timeline-item.completed .timeline-icon {
+            background: var(--success);
+            color: white;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .timeline-desc {
+            color: var(--text-light);
+        }
+
+        .timeline-time {
+            color: var(--primary);
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-icon {
+            font-size: 5em;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        @media (max-width: 1024px) {
+            .cart-container {
+                grid-template-columns: 1fr;
+            }
+            .cart-summary {
+                position: static;
+            }
         }
 
         @media (max-width: 768px) {
-            .logo { font-size: 2.5em; }
-            .tagline { font-size: 1.2em; }
-            .section-title { font-size: 2em; }
+            .nav-brand { font-size: 1.2em; }
+            .nav-links { gap: 10px; font-size: 0.9em; }
+            .menu-grid { grid-template-columns: 1fr; }
+            .search-filter { flex-direction: column; }
+            .search-box { width: 100%; }
+            .cart-float {
+                bottom: 20px;
+                right: 20px;
+                padding: 15px 25px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1 class="logo">🍛 SK Fufu & Thali Kitchen</h1>
-            <p class="tagline">Fine Dining Meets Digital Innovation</p>
-            <p style="font-size: 1.1em; margin-bottom: 20px;">Experience seamless dining with our live order tracking system</p>
-            
-            <div class="cta-buttons">
-                <button class="btn btn-primary" onclick="alert('Scan QR code at your table to start ordering!')">Order Now</button>
-                <button class="btn btn-secondary" onclick="document.querySelector('.features').scrollIntoView({behavior: 'smooth'})">Learn More</button>
+    <!-- Top Navigation -->
+    <div class="top-nav">
+        <div class="nav-content">
+            <div class="nav-brand">🍛 SK Fufu & Thali</div>
+            <div class="nav-links">
+                <div class="nav-link active" onclick="showPage('welcome')">Home</div>
+                <div class="nav-link" onclick="showPage('menu')">Menu</div>
+                <div class="nav-link" onclick="showPage('cart')">Cart</div>
+                <div class="nav-link" onclick="showPage('tracking')">Track Order</div>
             </div>
         </div>
-        
-        <div class="scroll-arrow" onclick="document.querySelector('.features').scrollIntoView({behavior: 'smooth'})">
-            <svg viewBox="0 0 24 24">
-                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
-            </svg>
-        </div>
-    </section>
+    </div>
 
-    <!-- Features Section -->
-    <section class="features">
-        <h2 class="section-title">Why Choose Our Digital Experience?</h2>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">📱</div>
-                <h3 class="feature-title">Digital Menu</h3>
-                <p class="feature-desc">Browse our interactive menu with prices, images, and real-time availability</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <h3 class="feature-title">Live Order Status</h3>
-                <p class="feature-desc">Track your order in real-time from preparation to serving</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">💳</div>
-                <h3 class="feature-title">Easy Payment</h3>
-                <p class="feature-desc">Pay securely online with QR codes, wallets, or cards</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">🎁</div>
-                <h3 class="feature-title">Loyalty Rewards</h3>
-                <p class="feature-desc">Earn points with every order and unlock exclusive offers</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">🌐</div>
-                <h3 class="feature-title">Multilingual</h3>
-                <p class="feature-desc">Available in English and Dzongkha for your convenience</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">⭐</div>
-                <h3 class="feature-title">Share Feedback</h3>
-                <p class="feature-desc">Help us improve by rating your dining experience</p>
+    <div class="container">
+        <!-- Welcome Page -->
+        <div id="welcome" class="page active">
+            <div class="welcome-screen">
+                <div class="welcome-card">
+                    <div class="welcome-icon">🍽️</div>
+                    <h1 class="welcome-title">Welcome!</h1>
+                    <p class="welcome-subtitle">Experience seamless digital dining</p>
+                    <div class="table-badge">📍 Table #5</div>
+                    <button class="btn btn-primary" onclick="showPage('menu')">View Menu & Order</button>
+                </div>
             </div>
         </div>
-    </section>
 
-    <!-- How It Works -->
-    <section class="how-it-works">
-        <h2 class="section-title" style="color: white;">How It Works</h2>
-        <div class="steps">
-            <div class="step">
-                <div class="step-number">1</div>
-                <h3 class="step-title">Scan QR Code</h3>
-                <p>Find the QR code on your table and scan it with your phone</p>
+        <!-- Menu Page -->
+        <div id="menu" class="page">
+            <div class="menu-header">
+                <div class="search-filter">
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Search for dishes...">
+                        <span class="search-icon">🔍</span>
+                    </div>
+                    <div class="filter-chips">
+                        <div class="chip active" data-category="all">All Items</div>
+                        <div class="chip" data-category="MAIN COURSE">Main Course</div>
+                        <div class="chip" data-category="SUPPLEMENTARY">Sides</div>
+                        <div class="chip" data-category="NOODLES">Noodles</div>
+                        <div class="chip" data-category="CHOWMEIN">Chowmein</div>
+                        <div class="chip" data-category="FRIED RICE">Fried Rice</div>
+                        <div class="chip" data-category="TEA/COFFEE">Beverages</div>
+                    </div>
+                </div>
             </div>
-            
-            <div class="step">
-                <div class="step-number">2</div>
-                <h3 class="step-title">Browse & Order</h3>
-                <p>Explore our menu and place your order digitally</p>
-            </div>
-            
-            <div class="step">
-                <div class="step-number">3</div>
-                <h3 class="step-title">Track Live</h3>
-                <p>Watch your order status update in real-time</p>
-            </div>
-            
-            <div class="step">
-                <div class="step-number">4</div>
-                <h3 class="step-title">Enjoy & Pay</h3>
-                <p>Savor your meal and pay conveniently online</p>
-            </div>
+            <div id="menuContent"></div>
         </div>
-    </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <h3>SK Fufu & Thali Kitchen</h3>
-            <p style="margin: 20px 0;">Fine dining for families and groups</p>
-            <p>📍 Phuntsholing, Chukha, Bhutan</p>
-            <p>📞 Contact us for reservations</p>
-            
-            <button class="language-toggle" onclick="alert('Language switching coming soon! བོད་སྐད་ | English')">
-                🌐 Switch Language
-            </button>
-            
-            <p style="margin-top: 30px; opacity: 0.7;">&copy; 2025 SK Fufu & Thali Kitchen. All rights reserved.</p>
+        <!-- Cart Page -->
+        <div id="cart" class="page">
+            <h1 style="margin-bottom: 30px; color: var(--primary);">Your Cart</h1>
+            <div id="cartContent"></div>
         </div>
-    </footer>
+
+        <!-- Order Tracking Page -->
+        <div id="tracking" class="page">
+            <div class="tracking-container">
+                <h1 style="margin-bottom: 30px; color: var(--primary);">Track Your Order</h1>
+                <div id="trackingContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Cart Button -->
+    <div class="cart-float hidden" id="cartFloat" onclick="showPage('cart')">
+        <div class="cart-badge" id="cartCount">0</div>
+        <span>View Cart</span>
+    </div>
 
     <script>
-        // Smooth scroll for all internal links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
+        const menuData = [
+            {id: "MCM-001", name: "Chicken Curry Rice", category: "MAIN COURSE", price: 180, available: true, icon: "🍗"},
+            {id: "MCM-002", name: "Pork Curry Rice", category: "MAIN COURSE", price: 180, available: true, icon: "🍖"},
+            {id: "MCM-003", name: "Sikam Paa Rice", category: "MAIN COURSE", price: 250, available: true, icon: "🥘"},
+            {id: "MCM-004", name: "Sikam Datshi Rice", category: "MAIN COURSE", price: 200, available: true, icon: "🍚"},
+            {id: "MCM-005", name: "Fish Curry Rice", category: "MAIN COURSE", price: 180, available: true, icon: "🐟"},
+            {id: "MCM-006", name: "Pork Ribs Rice", category: "MAIN COURSE", price: 250, available: true, icon: "🍖"},
+            {id: "MCM-007", name: "Prok Paa Rice", category: "MAIN COURSE", price: 250, available: true, icon: "🥘"},
+            {id: "MCM-008", name: "Prok Datshi Rice", category: "MAIN COURSE", price: 250, available: true, icon: "🍛"},
+            {id: "MCS-001", name: "Mushroom Datshi", category: "SUPPLEMENTARY", price: 160, available: true, icon: "🍄"},
+            {id: "MCS-002", name: "Kewa Datshi", category: "SUPPLEMENTARY", price: 140, available: true, icon: "🥔"},
+            {id: "MCS-003", name: "Ema Datshi", category: "SUPPLEMENTARY", price: 150, available: true, icon: "🌶️"},
+            {id: "MCS-004", name: "Moter Panner", category: "SUPPLEMENTARY", price: 180, available: true, icon: "🧈"},
+            {id: "MCS-005", name: "Pork Chilli", category: "SUPPLEMENTARY", price: 150, available: true, icon: "🌶️"},
+            {id: "MCS-006", name: "Chicken Chilli", category: "SUPPLEMENTARY", price: 150, available: true, icon: "🌶️"},
+            {id: "MCS-007", name: "Fish Chilli", category: "SUPPLEMENTARY", price: 150, available: true, icon: "🌶️"},
+            {id: "EH-001", name: "KODO FUFU", category: "HEALTHY FOOD", price: 0, available: false, icon: "🌾"},
+            {id: "EH-002", name: "ASHOOM FUFU", category: "HEALTHY FOOD", price: 0, available: false, icon: "🌾"},
+            {id: "FFNV-001", name: "Plain Veg Noodle", category: "NOODLES - VEG", price: 100, available: true, icon: "🍜"},
+            {id: "FFNV-002", name: "Koka Noodle", category: "NOODLES - VEG", price: 90, available: true, icon: "🍜"},
+            {id: "FFNV-003", name: "Koka Noodle (Non-Veg)", category: "NOODLES - NON VEG", price: 91, available: true, icon: "🍜"},
+            {id: "FFNV-004", name: "Beef/Pork Noodle", category: "NOODLES - NON VEG", price: 150, available: true, icon: "🍜"},
+            {id: "FFNV-005", name: "Egg Noodle", category: "NOODLES - NON VEG", price: 130, available: true, icon: "🍜"},
+            {id: "FFNV-006", name: "Chicken Noodle", category: "NOODLES - NON VEG", price: 140, available: true, icon: "🍜"},
+            {id: "FFC-001", name: "Koka Chowmein", category: "CHOWMEIN", price: 100, available: true, icon: "🥡"},
+            {id: "FFC-002", name: "Beef/Pork Chowmein", category: "CHOWMEIN", price: 150, available: true, icon: "🥡"},
+            {id: "FFC-003", name: "Egg Chowmein", category: "CHOWMEIN", price: 130, available: true, icon: "🥡"},
+            {id: "FFC-004", name: "Chicken Chowmein", category: "CHOWMEIN", price: 140, available: true, icon: "🥡"},
+            {id: "FFR-001", name: "Beef Fried Rice", category: "FRIED RICE", price: 150, available: true, icon: "🍚"},
+            {id: "FFR-002", name: "Pork Fried Rice", category: "FRIED RICE", price: 150, available: true, icon: "🍚"},
+            {id: "FFR-003", name: "Egg Fried Rice", category: "FRIED RICE", price: 130, available: true, icon: "🍚"},
+            {id: "FFR-004", name: "Chicken Fried Rice", category: "FRIED RICE", price: 140, available: true, icon: "🍚"},
+            {id: "FFR-005", name: "Veg. Fried Rice", category: "FRIED RICE", price: 100, available: true, icon: "🍚"},
+            {id: "FFR-006", name: "Egg Pouch", category: "POUCH", price: 40, available: true, icon: "🥚"},
+            {id: "D-001", name: "Suja", category: "TEA/COFFEE", price: 50, available: true, icon: "☕"},
+            {id: "D-002", name: "Cold Coffee", category: "TEA/COFFEE", price: 100, available: true, icon: "🧋"},
+            {id: "D-003", name: "Hot Black Coffee", category: "TEA/COFFEE", price: 50, available: true, icon: "☕"},
+            {id: "D-004", name: "Hot Milk Coffee (Half)", category: "TEA/COFFEE", price: 40, available: true, icon: "☕"},
+            {id: "D-005", name: "Hot Milk Coffee (Full)", category: "TEA/COFFEE", price: 80, available: true, icon: "☕"},
+            {id: "D-006", name: "Lemon Tea", category: "TEA/COFFEE", price: 60, available: true, icon: "🍋"},
+            {id: "D-007", name: "Hot Milk Tea (Half)", category: "TEA/COFFEE", price: 30, available: true, icon: "🍵"},
+            {id: "D-008", name: "Hot Milk Tea (Full)", category: "TEA/COFFEE", price: 60, available: true, icon: "🍵"},
+            {id: "D-009", name: "Green Tea", category: "TEA/COFFEE", price: 50, available: true, icon: "🍵"},
+            {id: "D-010", name: "Lassi", category: "TEA/COFFEE", price: 80, available: true, icon: "🥛"}
+        ];
+
+        let cart = {};
+        let currentFilter = 'all';
+        let searchTerm = '';
+        let currentOrder = null;
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            
+            document.getElementById(pageId).classList.add('active');
+            document.querySelectorAll('.nav-link').forEach(l => {
+                if (l.textContent.toLowerCase().includes(pageId) || 
+                    (pageId === 'welcome' && l.textContent === 'Home')) {
+                    l.classList.add('active');
                 }
+            });
+
+            if (pageId === 'menu') renderMenu();
+            if (pageId === 'cart') renderCart();
+            if (pageId === 'tracking') renderTracking();
+        }
+
+        function renderMenu() {
+            const menuContent = document.getElementById('menuContent');
+            menuContent.innerHTML = '';
+
+            const categories = {};
+            menuData.forEach(item => {
+                const baseCategory = item.category.split(' - ')[0];
+                if (!categories[baseCategory]) categories[baseCategory] = [];
+                categories[baseCategory].push(item);
+            });
+
+            Object.keys(categories).forEach(category => {
+                const items = categories[category].filter(item => {
+                    const matchesFilter = currentFilter === 'all' || item.category.includes(currentFilter);
+                    const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
+                    return matchesFilter && matchesSearch;
+                });
+
+                if (items.length === 0) return;
+
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'category-section';
+                categoryDiv.innerHTML = `
+                    <div class="category-header">
+                        <span class="category-icon">${items[0].icon}</span>
+                        <h2 class="category-title">${category}</h2>
+                    </div>
+                    <div class="menu-grid">
+                        ${items.map(item => `
+                            <div class="menu-item ${!item.available ? 'unavailable' : ''}" data-id="${item.id}">
+                                <div class="item-top">
+                                    <div class="item-name">${item.name}</div>
+                                    <div class="item-price">Nu. ${item.price.toFixed(2)}</div>
+                                </div>
+                                <div class="item-id">#${item.id}</div>
+                                <div class="item-badge ${item.available ? 'badge-available' : 'badge-unavailable'}">
+                                    ${item.available ? '✓ Available' : '🕐 Coming Soon'}
+                                </div>
+                                ${item.available ? `
+                                    <div class="quantity-control">
+                                        <button class="qty-btn" onclick="event.stopPropagation(); changeQty('${item.id}', -1)">−</button>
+                                        <span class="qty-display" id="qty-${item.id}">0</span>
+                                        <button class="qty-btn" onclick="event.stopPropagation(); changeQty('${item.id}', 1)">+</button>
+                                        <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart('${item.id}')">
+                                            Add to Cart
+                                        </button>
+                                    </div>
+                                ` : `
+                                    <button class="add-to-cart-btn" disabled>Not Available</button>
+                                `}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                menuContent.appendChild(categoryDiv);
+            });
+        }
+
+        function changeQty(itemId, delta) {
+            const qtyDisplay = document.getElementById(`qty-${itemId}`);
+            let currentQty = parseInt(qtyDisplay.textContent);
+            currentQty = Math.max(0, currentQty + delta);
+            qtyDisplay.textContent = currentQty;
+        }
+
+        function addToCart(itemId) {
+            const qtyDisplay = document.getElementById(`qty-${itemId}`);
+            const qty = parseInt(qtyDisplay.textContent);
+            
+            if (qty === 0) {
+                showNotification('Please select quantity first!', 'warning');
+                return;
+            }
+
+            const item = menuData.find(i => i.id === itemId);
+            if (!item || !item.available) return;
+
+            if (cart[itemId]) {
+                cart[itemId].quantity += qty;
+            } else {
+                cart[itemId] = { ...item, quantity: qty };
+            }
+
+            qtyDisplay.textContent = '0';
+            updateCartDisplay();
+            showNotification(`${item.name} (${qty}x) added to cart!`, 'success');
+        }
+
+        function updateCartDisplay() {
+            const totalItems = Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
+            const cartCount = document.getElementById('cartCount');
+            const cartFloat = document.getElementById('cartFloat');
+
+            cartCount.textContent = totalItems;
+            
+            if (totalItems > 0) {
+                cartFloat.classList.remove('hidden');
+            } else {
+                cartFloat.classList.add('hidden');
+            }
+        }
+
+        function renderCart() {
+            const cartContent = document.getElementById('cartContent');
+            const cartItems = Object.values(cart);
+
+            if (cartItems.length === 0) {
+                cartContent.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🛒</div>
+                        <h2 style="color: var(--text-light); margin-bottom: 20px;">Your cart is empty</h2>
+                        <button class="btn btn-primary" onclick="showPage('menu')">Browse Menu</button>
+                    </div>
+                `;
+                return;
+            }
+
+            const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const tax = subtotal * 0.05; // 5% tax
+            const total = subtotal + tax;
+
+            cartContent.innerHTML = `
+                <div class="cart-container">
+                    <div class="cart-items">
+                        <h2 style="margin-bottom: 25px; color: var(--primary);">Order Items</h2>
+                        ${cartItems.map(item => `
+                            <div class="cart-item">
+                                <div style="font-size: 2em;">${item.icon}</div>
+                                <div class="cart-item-info">
+                                    <div class="cart-item-name">${item.name}</div>
+                                    <div class="cart-item-price">Nu. ${item.price.toFixed(2)} each</div>
+                                </div>
+                                <div class="quantity-control">
+                                    <button class="qty-btn" onclick="updateCartQty('${item.id}', -1)">−</button>
+                                    <span class="qty-display">${item.quantity}</span>
+                                    <button class="qty-btn" onclick="updateCartQty('${item.id}', 1)">+</button>
+                                </div>
+                                <div style="font-size: 1.3em; font-weight: bold; color: var(--primary); min-width: 120px; text-align: right;">
+                                    Nu. ${(item.price * item.quantity).toFixed(2)}
+                                </div>
+                                <button class="qty-btn" onclick="removeFromCart('${item.id}')" style="color: #d32f2f; border-color: #d32f2f;">×</button>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="cart-summary">
+                        <h3 class="summary-title">Order Summary</h3>
+                        <div style="background: var(--bg-cream); padding: 15px; border-radius: 15px; margin-bottom: 20px;">
+                            <div style="text-align: center; color: var(--primary); font-weight: 600; font-size: 1.1em;">
+                                📍 Table #${getTableNumber()}
+                            </div>
+                        </div>
+                        <div class="summary-row">
+                            <span>Subtotal</span>
+                            <span>Nu. ${subtotal.toFixed(2)}</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Tax (5%)</span>
+                            <span>Nu. ${tax.toFixed(2)}</span>
+                        </div>
+                        <div class="summary-row summary-total">
+                            <span>Total</span>
+                            <span>Nu. ${total.toFixed(2)}</span>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 25px;" onclick="placeOrder()">
+                            Place Order
+                        </button>
+                        <button class="btn btn-secondary" style="width: 100%; margin-top: 15px;" onclick="showPage('menu')">
+                            Continue Shopping
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function updateCartQty(itemId, delta) {
+            if (cart[itemId]) {
+                cart[itemId].quantity += delta;
+                if (cart[itemId].quantity <= 0) {
+                    delete cart[itemId];
+                }
+                updateCartDisplay();
+                renderCart();
+            }
+        }
+
+        function removeFromCart(itemId) {
+            delete cart[itemId];
+            updateCartDisplay();
+            renderCart();
+            showNotification('Item removed from cart', 'warning');
+        }
+
+        function getTableNumber() {
+            // Get table number from URL parameter or default to Table 5
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('table') || '5';
+        }
+
+        function placeOrder() {
+            if (Object.keys(cart).length === 0) {
+                showNotification('Your cart is empty!', 'warning');
+                return;
+            }
+
+            const orderNumber = 'ORD-' + Date.now().toString().slice(-6);
+            const orderTime = new Date().toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+
+            currentOrder = {
+                number: orderNumber,
+                time: orderTime,
+                table: getTableNumber(),
+                items: { ...cart },
+                status: 'received',
+                timeline: [
+                    { status: 'received', time: orderTime, active: true, completed: true },
+                    { status: 'preparing', time: null, active: true, completed: false },
+                    { status: 'ready', time: null, active: false, completed: false },
+                    { status: 'served', time: null, active: false, completed: false }
+                ]
+            };
+
+            // Simulate order progression
+            setTimeout(() => {
+                currentOrder.status = 'preparing';
+                currentOrder.timeline[1].time = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                currentOrder.timeline[1].completed = true;
+                currentOrder.timeline[2].active = true;
+            }, 3000);
+
+            setTimeout(() => {
+                currentOrder.status = 'ready';
+                currentOrder.timeline[2].time = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                currentOrder.timeline[2].completed = true;
+                currentOrder.timeline[3].active = true;
+            }, 10000);
+
+            cart = {};
+            updateCartDisplay();
+            showPage('tracking');
+            showNotification('Order placed successfully!', 'success');
+        }
+
+        function renderTracking() {
+            const trackingContent = document.getElementById('trackingContent');
+
+            if (!currentOrder) {
+                trackingContent.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">📦</div>
+                        <h2 style="color: var(--text-light); margin-bottom: 20px;">No active orders</h2>
+                        <p style="color: var(--text-light); margin-bottom: 30px;">Place an order to track it here</p>
+                        <button class="btn btn-primary" onclick="showPage('menu')">Browse Menu</button>
+                    </div>
+                `;
+                return;
+            }
+
+            const statusInfo = {
+                received: { icon: '✅', title: 'Order Received', desc: 'Your order has been confirmed' },
+                preparing: { icon: '👨‍🍳', title: 'Preparing', desc: 'Our chef is preparing your delicious meal' },
+                ready: { icon: '🔔', title: 'Ready to Serve', desc: 'Your food is ready and will be served shortly' },
+                served: { icon: '🍽️', title: 'Served', desc: 'Enjoy your meal!' }
+            };
+
+            trackingContent.innerHTML = `
+                <div class="order-info-card">
+                    <div class="order-number">Order ${currentOrder.number}</div>
+                    <div class="order-time">Placed at ${currentOrder.time} • Table #${currentOrder.table}</div>
+                    <div style="margin-top: 20px; padding: 15px; background: var(--bg-cream); border-radius: 15px;">
+                        <strong style="color: var(--primary);">Items:</strong>
+                        ${Object.values(currentOrder.items).map(item => 
+                            `<div style="margin-top: 8px;">${item.icon} ${item.name} x${item.quantity}</div>`
+                        ).join('')}
+                    </div>
+                </div>
+
+                <div class="status-timeline">
+                    ${currentOrder.timeline.map(step => {
+                        const info = statusInfo[step.status];
+                        const className = step.completed ? 'completed' : (step.active ? 'active' : '');
+                        return `
+                            <div class="timeline-item ${className}">
+                                <div class="timeline-icon">${info.icon}</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">${info.title}</div>
+                                    <div class="timeline-desc">${info.desc}</div>
+                                    ${step.time ? `<div class="timeline-time">${step.time}</div>` : ''}
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+
+                <button class="btn btn-primary" style="width: 100%; margin-top: 30px;" onclick="showPage('menu')">
+                    Order More Items
+                </button>
+            `;
+        }
+
+        function showNotification(message, type = 'success') {
+            const colors = {
+                success: '#43a047',
+                warning: '#fb8c00',
+                error: '#d32f2f'
+            };
+
+            const notif = document.createElement('div');
+            notif.textContent = message;
+            notif.style.cssText = `
+                position: fixed; top: 80px; right: 20px; 
+                background: ${colors[type]}; color: white; 
+                padding: 16px 28px; border-radius: 12px;
+                box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+                z-index: 200; animation: slideInRight 0.3s ease;
+                font-weight: 600;
+            `;
+            document.body.appendChild(notif);
+            setTimeout(() => notif.remove(), 3000);
+        }
+
+        // Event Listeners
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            searchTerm = e.target.value;
+            renderMenu();
+        });
+
+        document.querySelectorAll('.chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+                currentFilter = chip.dataset.category;
+                renderMenu();
             });
         });
 
-        // Add animation on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+        // Initialize
+        renderMenu();
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.feature-card').forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(30px)';
-            card.style.transition = 'all 0.6s ease';
-            observer.observe(card);
+        // Update table number in welcome screen based on URL
+        window.addEventListener('load', () => {
+            const tableNum = getTableNumber();
+            document.querySelector('.table-badge').textContent = `📍 Table #${tableNum}`;
         });
     </script>
 </body>
 </html>
-
-
